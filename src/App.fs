@@ -782,7 +782,7 @@ type App =
                             Html.time [ prop.className "text-xs opacity-50"; prop.text msg.time ]
                         ]
                     ]
-                    Html.div [ prop.className "chat-bubble tracking-wide"; prop.children [ content ] ]
+                    Html.div [ prop.className "chat-bubble tracking-wide max-sm:text-sm"; prop.children [ content ] ]
                     Html.div [
                         prop.className "chat-footer opacity-50"
                         prop.textf "%A %s" msg.trigger msg.emoji
@@ -931,7 +931,7 @@ type App =
             prop.className "modal modal-bottom"
             prop.children [
                 Html.div [
-                    prop.className "modal-box"
+                    prop.className "modal-box max-h-3/4"
                     prop.children [
                         Html.form [
                             prop.method "dialog"
