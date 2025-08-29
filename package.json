@@ -1,0 +1,27 @@
+{
+  "displayName": "Companio",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "start": "dotnet tool restore && dotnet fable watch src --runFast vite",
+    "build": "dotnet tool restore && dotnet fable src --run vite build",
+    "clean": "dotnet fable clean src --yes"
+  },
+  "dependencies": {
+    "@uidotdev/usehooks": "^2.4.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-text-to-speech": "^2.1.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.12",
+    "@vitejs/plugin-react": "^5.0.1",
+    "daisyui": "^5.0.54",
+    "tailwindcss": "^4.1.12",
+    "tw-animate-css": "^1.3.7",
+    "vite": "^7.1.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
