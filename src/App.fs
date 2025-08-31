@@ -286,7 +286,6 @@ type App =
         let parentRef = React.useElementRef()
 
         let cancel = fun () ->
-            console.log("cancel")
             delayRef.current |> Option.iter Fable.Core.JS.clearTimeout
             intervalRef.current |> Option.iter Fable.Core.JS.clearInterval
             mainCallbackTimeoutRef.current |> Option.iter Fable.Core.JS.clearTimeout
