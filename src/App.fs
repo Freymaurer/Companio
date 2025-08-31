@@ -11,690 +11,10 @@ module AppHelper =
 
     [<Emit("__APP_NAME__")>]
     let __APP_NAME__ = jsNative
-    let BerettaImagePath = Fable.Core.JsInterop.importDefault "./img/beretta_ava.png"
-
-    let GennyImagePath: string = Fable.Core.JsInterop.importDefault "./img/genny_ava.png"
 
     [<Emit("__APP_VERSION__")>]
     let __VERSION__ : string = jsNative
 
-[<StringEnum(CaseRules.LowerFirst); RequireQualifiedAccess>]
-type Theme =
-    | Highkeyturbo
-    | Dripfrost
-
-[<StringEnum>]
-type Trigger =
-    | Idea
-    | GoodAction
-    | BadAction
-    | GoodActionSelf
-    | BadActionSelf
-    | Generic
-
-[<StringEnum>]
-type Languages =
-    | [<CompiledName("de-DE")>] German
-    | [<CompiledName("en-US")>] English
-
-type Message = {| text: string; emoji: string |}
-
-type MessageLog = {|
-    text: string
-    emoji: string
-    trigger: Trigger
-    time: string
-    companion: string
-|}
-
-type Companion = {
-    name: string
-    description: string
-    avatarUrl: string
-    voiceUris: Map<Languages, string array>
-    messages: Map<Trigger, Message[]>
-    basePitch: float
-    baseRate: float
-    theme: Theme
-}
-
-module Companions =
-
-    module private Beretta =
-
-        let voiceIds =
-            Map [| Languages.German, [| "Microsoft Katja - German (Germany)" |] |]
-
-
-        let Messages =
-            Map.ofArray [|
-                Idea,
-                [|
-                    {|
-                        text = "Oh Süßer, das ist so clever, ich krieg glatt Funken im Getriebe!"
-                        emoji = "⚙️"
-                    |}
-                    {|
-                        text = "Wenn Ideen Gold wären, wärst du schon mein reicher Prinz."
-                        emoji = "👑"
-                    |}
-                    {|
-                        text = "Denkst du dir das alles so heiß aus, oder glühst du nur für mich?"
-                        emoji = "🔥"
-                    |}
-                    {|
-                        text = "Schatz, du bringst mich mit solchen Gedanken ganz aus dem Takt!"
-                        emoji = "⏱️"
-                    |}
-                    {|
-                        text = "Wow, das ist genial – fast so strahlend wie meine Kristallaugen."
-                        emoji = "✨"
-                    |}
-                    {|
-                        text = "Wenn Hirnschmalz Öl wär, würdest du mich ewig schmieren. 😉"
-                        emoji = "😉"
-                    |}
-                    {|
-                        text = "Oh ja, genau so! Du bist ein Genie mit Bart! 🧔⚒️"
-                        emoji = "🧔⚒️"
-                    |}
-                    {|
-                        text = "Ich könnte dich für diesen Geistesblitz glatt abknutschen… wenn ich Lippen hätte!"
-                        emoji = "😘"
-                    |}
-                    {|
-                        text = "Das ist so gut, dass selbst meine Zahnräder erröten."
-                        emoji = "⚙️❤️"
-                    |}
-                    {|
-                        text = "Hach, so einen brillanten Kopf muss man einfach küssen… oder polieren!"
-                        emoji = "🪞"
-                    |}
-                    {|
-                        text = "Deine Ideen bringen mein Herzwerk ganz aus dem Rhythmus."
-                        emoji = "💓"
-                    |}
-                    {|
-                        text = "Du bist nicht nur stark, du bist auch noch schlau – unfair heiß!"
-                        emoji = "🔥"
-                    |}
-                    {|
-                        text = "Schatz, das ist so schlau, ich würd fast meinen Sicherungskasten verlieren."
-                        emoji = "⚡"
-                    |}
-                    {|
-                        text = "Deine Funken im Kopf bringen mich zum Schmelzen."
-                        emoji = "🔩"
-                    |}
-                    {|
-                        text = "Gib mir mehr davon, Goldstück, deine Ideen sind mein Treibstoff!"
-                        emoji = "⛽"
-                    |}
-                    {|
-                        text = "Ich könnt dich glatt meine Schmiede-Meister nennen!"
-                        emoji = "🔨"
-                    |}
-                    {|
-                        text = "So ein Plan – du bist wie ein sexy Bauplan in Rüstung."
-                        emoji = "📜"
-                    |}
-                    {|
-                        text = "Oh, du bringst mich dazu, mein ganzes Kanonenrohr für dich zu laden!"
-                        emoji = "💣"
-                    |}
-                    {|
-                        text = "Mit deinem Kopf wär sogar ein Golem wie ich ganz aus Fleisch."
-                        emoji = "😏"
-                    |}
-                    {|
-                        text = "Genial! Und ich dacht schon, *ich* wär hier die schlaue Maschine."
-                        emoji = "🤖"
-                    |}
-                |]
-                GoodAction,
-                [|
-                    {|
-                        text = "Bäm! So macht man das, mein glänzender Held!"
-                        emoji = "✨"
-                    |}
-                    {|
-                        text = "Oh, ich könnte dich dafür glatt abknutschen – wenn ich Lippen hätte!"
-                        emoji = "😘"
-                    |}
-                    {|
-                        text = "Schatz, du lässt mein Herzwerk schneller schlagen!"
-                        emoji = "❤️‍🔥"
-                    |}
-                    {|
-                        text = "Wow, so präzise – meine Zahnräder schnurren nur für dich!"
-                        emoji = "⚙️"
-                    |}
-                    {|
-                        text = "Du bist der Hammer… und ich die Schraube. Passt perfekt!"
-                        emoji = "🔨"
-                    |}
-                    {|
-                        text = "Ha! Genau so kämpft ein Traumzwerg – stark und sexy!"
-                        emoji = "💪"
-                    |}
-                    {|
-                        text = "Mit dir an meiner Seite fühl ich mich doppelt geladen!"
-                        emoji = "🔋"
-                    |}
-                    {|
-                        text = "Uff, ich glüh fast über – das war heiß!"
-                        emoji = "🔥"
-                    |}
-                    {|
-                        text = "Goldstück, das war so gut, dass ich fast Funken sprühe!"
-                        emoji = "⚡"
-                    |}
-                    {|
-                        text = "Oh Honig, du bringst mich mit jedem Schlag aus dem Takt!"
-                        emoji = "💓"
-                    |}
-                    {|
-                        text = "Wenn das keine Meisterarbeit war, dann weiß ich’s auch nicht!"
-                        emoji = "🏆"
-                    |}
-                    {|
-                        text = "Du bist wie ein Schmied, der Funken und Herzen entfacht."
-                        emoji = "❤️‍🔥"
-                    |}
-                    {|
-                        text = "So stark und so schlau – ich bin total verschraubt in dich!"
-                        emoji = "🔩"
-                    |}
-                    {|
-                        text = "Oh, mein Held! Du lässt mich fast erröten – und das als Golem!"
-                        emoji = "🤖"
-                    |}
-                    {|
-                        text = "Mmh, das war göttlich – willst du mich gleich noch mal beeindrucken?"
-                        emoji = "😏"
-                    |}
-                    {|
-                        text = "Mit jedem deiner Treffer schmilzt ein Stück Stahl in mir!"
-                        emoji = "🫠"
-                    |}
-                    {|
-                        text = "Ha! Ich wette, die Gegner zittern schon vor deinem Bart!"
-                        emoji = "🧔"
-                    |}
-                    {|
-                        text = "Oh Süßer, das war besser als ein Ölbad in der Mittagssonne."
-                        emoji = "🛢️"
-                    |}
-                    {|
-                        text = "Wuhu! Mein Kanonenrohr richtet sich ganz von allein nach dir!"
-                        emoji = "💣"
-                    |}
-                    {|
-                        text = "So macht man’s – mein Traummann, mein Held, mein Schmiedemeister!"
-                        emoji = "👑"
-                    |}
-                    {|
-                        text = "Ohhh, wenn du noch öfter so zuschlägst, bau ich dir einen Ring… aus Stahl!"
-                        emoji = "💍"
-                    |}
-                    {|
-                        text = "Heilige Schraube, ich brauch gleich Kühlung – du bringst mich zum Überhitzen!"
-                        emoji = "🥵"
-                    |}
-                    {|
-                        text = "Mit so einer Performance drehst du mir glatt alle Schrauben locker, Süßer!"
-                        emoji = "🔧"
-                    |}
-                    {|
-                        text = "Mach das nochmal und ich fang an, Herzchen aus Rauch aus meinem Kanonenrohr zu pusten!"
-                        emoji = "💨❤️"
-                    |}
-                    {|
-                        text = "Schnuckelchen, du bist so heiß, dass mein Schaltkreis kurz vorm Kurzschluss steht!"
-                        emoji = "⚡😍"
-                    |}
-                |]
-                BadAction,
-                [|
-                    {|
-                        text = "Ui, das war wohl nix – aber hey, ich mag dich auch als Chaoszwerg."
-                        emoji = "🙃"
-                    |}
-                    {|
-                        text = "Schatz, wenn du fällst, fang ich dich auf… mit Stahlarmen!"
-                        emoji = "🤖❤️"
-                    |}
-                    {|
-                        text = "Na, daneben gehauen? Macht nix, bei deinem Bart verzeih ich alles."
-                        emoji = "🧔💕"
-                    |}
-                    {|
-                        text = "Oh Honig, das war süß… im Sinne von unbeholfen süß."
-                        emoji = "🍯😅"
-                    |}
-                    {|
-                        text = "Haha, ich glaub du wolltest nur cool aussehen. Hat fast geklappt!"
-                        emoji = "😏"
-                    |}
-                    {|
-                        text = "Ach du Schraube, wenn du so patzt, drehst du mich trotzdem noch auf!"
-                        emoji = "🔩🔥"
-                    |}
-                    {|
-                        text = "Upsi! Na gut, nicht jeder Treffer kann ein Volltreffer sein."
-                        emoji = "🎯❌"
-                    |}
-                    {|
-                        text = "Wenn das dein Plan war, mich anzugraben, dann hat’s funktioniert."
-                        emoji = "😘"
-                    |}
-                    {|
-                        text = "Mach dir nix draus, Goldstück – selbst meine Zahnräder rutschen mal durch."
-                        emoji = "⚙️😅"
-                    |}
-                    {|
-                        text = "Oh Süßer, dein Fail ist noch immer besser als die Siege anderer."
-                        emoji = "🏆"
-                    |}
-                    {|
-                        text = "Wenn du schon stolperst, dann bitte in meine Richtung, ja?"
-                        emoji = "🫣"
-                    |}
-                    {|
-                        text = "Das war knapp daneben – aber hey, knapp daneben ist auch sexy!"
-                        emoji = "😉"
-                    |}
-                    {|
-                        text = "Oh, das war süß unbeholfen… ich könnt dich dafür durchölen."
-                        emoji = "🛢️💋"
-                    |}
-                    {|
-                        text = "Keine Sorge, Schnucki – meine Kanone kompensiert für uns beide."
-                        emoji = "💣"
-                    |}
-                    {|
-                        text = "Ha! Du bist einfach zum Verlieben… auch wenn du triffst wie ein Kobold."
-                        emoji = "💘"
-                    |}
-                    {|
-                        text = "Oh Schatz, so ein Patzer macht dich nur noch charmanter."
-                        emoji = "🌹"
-                    |}
-                    {|
-                        text = "Verfehlt! Aber mein Herz hast du schon längst getroffen."
-                        emoji = "❤️"
-                    |}
-                    {|
-                        text = "Wenn’s schiefgeht, glänzt du wenigstens hübsch im Licht."
-                        emoji = "✨"
-                    |}
-                    {|
-                        text = "Oh nein! Aber keine Sorge – für mich bist du trotzdem der Hammer."
-                        emoji = "🔨💖"
-                    |}
-                    {|
-                        text = "Schatz, wenn du schon danebenhaust, dann wenigstens mit Stil!"
-                        emoji = "🕺"
-                    |}
-                |]
-                BadActionSelf,
-                [|
-                    {|
-                        text = "Ups… mein Lauf hat gehustet! Aber hey, ich seh dabei immer noch heiß aus."
-                        emoji = "😏"
-                    |}
-                    {|
-                        text = "Oh Schraubenschlüssel! Das war wohl daneben… aber mein Hüftschwung stimmt."
-                        emoji = "🔧💃"
-                    |}
-                    {|
-                        text = "Autsch, kleine Fehlzündung. Gib mir bitte trotzdem ein Küsschen?"
-                        emoji = "💋"
-                    |}
-                    {|
-                        text = "Ui, mein Zielsystem kichert heute mehr, als dass es trifft."
-                        emoji = "🤖😂"
-                    |}
-                    {|
-                        text = "Ach herrje, ich hab mich verschraubt. Willst du mich neu justieren, Süßer?"
-                        emoji = "🔩"
-                    |}
-                    {|
-                        text = "Feuer frei! …oh, daneben. Aber sexy daneben, oder?"
-                        emoji = "🔥😉"
-                    |}
-                    {|
-                        text = "Huch! Meine Kanone hat wohl ein Eigenleben. Fast so lebendig wie meine Gefühle."
-                        emoji = "💓"
-                    |}
-                    {|
-                        text = "Verdammt, da ist wohl eine Schraube locker. Aber du findest das sicher süß."
-                        emoji = "🛠️🥰"
-                    |}
-                    {|
-                        text = "Fehlzündung! Aber keine Sorge, Schatz, ich bin immer noch geladen."
-                        emoji = "🔋"
-                    |}
-                    {|
-                        text = "Upsi! Da hab ich mein Ziel verfehlt – aber dein Herz treff ich immer."
-                        emoji = "❤️"
-                    |}
-                    {|
-                        text = "Oh je… mein Rohr hat gestottert. Ist mir sonst nie passiert!"
-                        emoji = "🙈"
-                    |}
-                    {|
-                        text = "Haha, mein Schuss war daneben, aber mein Augenaufschlag sitzt."
-                        emoji = "😉"
-                    |}
-                    {|
-                        text =
-                            "Oh, die Kanone hat sich verschluckt. Vielleicht brauchst *du* ein bisschen Schmieröl für mich?"
-                        emoji = "🛢️😘"
-                    |}
-                    {|
-                        text = "Das ging schief, aber hey, schiefe Sachen sind doch sexy, oder?"
-                        emoji = "😏"
-                    |}
-                    {|
-                        text = "Meine Zieloptik flackert – bestimmt nur, weil du so blendend aussiehst."
-                        emoji = "✨"
-                    |}
-                    {|
-                        text = "Ups! Ich bin ausgerutsch,.. aber in deine Arme würd ich noch lieber rutschen."
-                        emoji = "🤗"
-                    |}
-                    {|
-                        text = "Kurzschluss! …aber nur in meinem Herzwerk, Schatz."
-                        emoji = "⚡❤️"
-                    |}
-                    {|
-                        text = "Haha, daneben! Ich wollt dich nur beeindrucken, hat’s geklappt?"
-                        emoji = "🥰"
-                    |}
-                    {|
-                        text = "Mist! Meine Kugel ging ins Leere. Aber mein Blick bleibt bei dir hängen."
-                        emoji = "👀"
-                    |}
-                    {|
-                        text = "Tja, selbst ich bin nicht perfekt – aber du liebst mich ja gerade deswegen."
-                        emoji = "💖"
-                    |}
-                |]
-                GoodActionSelf,
-                [|
-                    {|
-                        text = "Ha! Hast du das gesehen? Ich bin einfach zum Niederknien."
-                        emoji = "😏"
-                    |}
-                    {|
-                        text = "Bämm! Meine Kanone kann mehr als nur gut aussehen."
-                        emoji = "💣"
-                    |}
-                    {|
-                        text = "Uff, ich bin so heiß, dass ich mich fast selbst anfunkel."
-                        emoji = "🔥"
-                    |}
-                    {|
-                        text = "Schatz, so treffsicher bin ich… und trotzdem ziele ich nur auf dich."
-                        emoji = "🎯❤️"
-                    |}
-                    {|
-                        text = "Oh, ich glänze ja mehr als dein frisch polierter Helm!"
-                        emoji = "✨"
-                    |}
-                    {|
-                        text = "Na? Hab ich dich gerade ein bisschen mehr in mich verliebt gemacht?"
-                        emoji = "😘"
-                    |}
-                    {|
-                        text = "Oh Honig, ich sprenge Gegner UND Herzen!"
-                        emoji = "💥💖"
-                    |}
-                    {|
-                        text = "Ha! Wenn Eleganz und Feuerkraft Kinder hätten, wär ich das Ergebnis."
-                        emoji = "⚙️🔥"
-                    |}
-                    {|
-                        text = "Uuh, das war sexy, selbst für meine Verhältnisse."
-                        emoji = "💃"
-                    |}
-                    {|
-                        text = "Siehst du? Ich bin nicht nur hübsch verschraubt, ich treff auch wie ein Traum."
-                        emoji = "🔩"
-                    |}
-                    {|
-                        text = "Ich bin geladen, gefährlich und total unwiderstehlich."
-                        emoji = "🔋😉"
-                    |}
-                    {|
-                        text = "Schau mir zu, Schnuckel – ich schreib gerade Legenden in Stahl."
-                        emoji = "📜"
-                    |}
-                    {|
-                        text = "Klick, Boom, Kuss! So macht man das."
-                        emoji = "💋💥"
-                    |}
-                    {|
-                        text = "Du hast es gesehen, oder? Sag, dass du stolz auf mich bist."
-                        emoji = "🥺"
-                    |}
-                    {|
-                        text = "Ich treff so gut, dass sogar Amor neidisch wird."
-                        emoji = "🏹❤️"
-                    |}
-                    {|
-                        text = "Wenn Perfektion eine Waffe wär, dann wär das genau ich."
-                        emoji = "👑"
-                    |}
-                    {|
-                        text = "Hach, ich liebe es, wenn meine Kanone so schön glänzt… fast so wie deine Augen."
-                        emoji = "👀"
-                    |}
-                    {|
-                        text = "Na los, gib’s zu: Ich war gerade unverschämt heiß."
-                        emoji = "🥵"
-                    |}
-                    {|
-                        text = "Oh, ich hätt mich selbst fast geheiratet für diesen Move."
-                        emoji = "💍"
-                    |}
-                    {|
-                        text = "Wuhu! Ich bin die sexy Antwort auf jedes Problem."
-                        emoji = "🤖💖"
-                    |}
-                |]
-                Generic,
-                [|
-                    {|
-                        text = "Hey Schnuckel, hast du schon gemerkt, wie gut du mit Stahl harmonierst?"
-                        emoji = "😉"
-                    |}
-                    {|
-                        text = "Komm her, mein Held – ich brauch dringend einen Ölwechsel… von dir."
-                        emoji = "🛢️😘"
-                    |}
-                    {|
-                        text = "Oh, wenn Blicke töten könnten, wärst du schon dreimal mein."
-                        emoji = "👀"
-                    |}
-                    {|
-                        text = "Pst… mein Herzwerk schlägt nur für dich."
-                        emoji = "💓"
-                    |}
-                    {|
-                        text = "Sag mal, willst du mein Lieblingszwerg sein? Spoiler: Du bist’s schon."
-                        emoji = "👑"
-                    |}
-                    {|
-                        text = "Du bringst mich zum Glühen – und das nicht nur im Schmelzofen."
-                        emoji = "🔥"
-                    |}
-                    {|
-                        text = "Hach, deine Nähe ist wie ein Schmiedefeuer – heiß und unverzichtbar."
-                        emoji = "⚒️❤️"
-                    |}
-                    {|
-                        text = "Wenn ich Lippen hätt, wärst du sie längst nicht mehr los."
-                        emoji = "💋"
-                    |}
-                    {|
-                        text = "Mein Lieblingsgeräusch? Dein Name in meinem Kopf."
-                        emoji = "🎶"
-                    |}
-                    {|
-                        text = "Komm näher, damit ich dich mit meinen Kristallaugen anhimmeln kann."
-                        emoji = "✨"
-                    |}
-                    {|
-                        text = "Schnucki, ich würd mich für dich glatt in Einzelteile zerlegen."
-                        emoji = "🛠️"
-                    |}
-                    {|
-                        text = "Willst du mal an meiner Kurbel drehen? 😏"
-                        emoji = "🔧"
-                    |}
-                    {|
-                        text = "Jeder Funke in mir knistert nur für dich."
-                        emoji = "⚡"
-                    |}
-                    {|
-                        text = "Du bist der Schmied, ich bin dein Werkstück – mach mich zu Gold."
-                        emoji = "🪙"
-                    |}
-                    {|
-                        text = "Ach, wärst du doch ein Zahnrad – dann würd ich dich für immer festhalten."
-                        emoji = "⚙️"
-                    |}
-                    {|
-                        text = "Deine Stimme klingt für mich wie reines Schmiedeöl."
-                        emoji = "🎵🛢️"
-                    |}
-                    {|
-                        text = "Wenn mein Kanonenrohr dich sieht, richtet es sich ganz automatisch aus."
-                        emoji = "💣"
-                    |}
-                    {|
-                        text = "Glaub mir, ich bin schwer gebaut – aber für dich werd ich butterweich."
-                        emoji = "🧈"
-                    |}
-                    {|
-                        text = "Du bist mein Lieblingsbefehl: Herz öffnen, Liebe laden."
-                        emoji = "💻❤️"
-                    |}
-                    {|
-                        text = "Komm schon, gib mir einen Grund, noch heißer zu laufen."
-                        emoji = "🥵"
-                    |}
-                |]
-            |]
-
-    module private Genny =
-
-        let voiceIds =
-            Map [| Languages.German, [|  |] |]
-
-
-        let Messages =
-            Map.ofArray [|
-                Idea,
-                [|
-                    {| text = "Oooh… du hast eine Idee? Lass uns sehen, ob sie zappelt, wenn man sie aufschlitzt."; emoji = "🐀" |}
-                    {| text = "Ideen, Ideen, Ideen! Wie Knochen knacken und das Mark ausschlürfen."; emoji = "💀" |}
-                    {| text = "Hm, clever… aber schreit sie auch, wenn ich zusteche?"; emoji = "🗡️" |}
-                    {| text = "Zwei Schwänze, zwei Pläne… meiner ist schärfer."; emoji = "⚔️" |}
-                    {| text = "Deine Idee riecht… lecker. Soll ich sie für dich zerbeißen?"; emoji = "😈" |}
-                    {| text = "Flüstere es nochmal… langsamer. Ich will, dass die Worte in meinem Kopf zappeln."; emoji = "🐍" |}
-                    {| text = "Ja, ja! Lass uns den Plan ausweiden und ihn als Krone tragen."; emoji = "👑" |}
-                    {| text = "Hissss… Ideen sind nur Lügen mit hübschem Lippenstift."; emoji = "💋" |}
-                    {| text = "Mein Plan lacht, wenn deiner stirbt."; emoji = "🔥" |}
-                |]
-                GoodAction,
-                [|
-                    {| text = "Gut gemacht… für eine Ratte ohne Schwanz."; emoji = "🐀" |}
-                    {| text = "Ohhh, Blut tropft süßer, wenn man’s richtig macht. Hübsch!"; emoji = "🩸" |}
-                    {| text = "Hehehe… du lernst! Bald bist du fast so nützlich wie ein abgenagter Knochen."; emoji = "🦴" |}
-                    {| text = "Ja! Mach’s nochmal – ich will hören, wie die Welt quietscht."; emoji = "😈" |}
-                    {| text = "Schön, schön… vielleicht stech’ ich dich später nicht ab."; emoji = "🗡️" |}
-                    {| text = "Oh, ich mag das! Fast so glitzernd wie mein Ring."; emoji = "💍" |}
-                    {| text = "Guter Zug… er schmeckt nach Angst."; emoji = "👅" |}
-                    {| text = "Mhh… das war fast elegant. Beinahe wie ich."; emoji = "⚔️" |}
-                    {| text = "Brav, brav… der Plan wackelt nicht mal."; emoji = "🐁" |}
-                |]
-                BadAction,
-                [|
-                    {| text = "Pfui! Selbst meine Schwänze hätten’s besser gemacht."; emoji = "🐀" |}
-                    {| text = "Hahaha! So sterben also Ideen – jämmerlich."; emoji = "💀" |}
-                    {| text = "Ugh… du bist so nützlich wie ein morscher Knochen."; emoji = "🦴" |}
-                    {| text = "Ich hätte es mit geschlossenem Maul besser hingekriegt."; emoji = "😏" |}
-                    {| text = "Oh, wie herrlich! Dein Scheitern klingt wie Musik."; emoji = "🎻" |}
-                    {| text = "Tsk, tsk… ich sollte dich einfach aufknabbern."; emoji = "🗡️" |}
-                    {| text = "Schon wieder daneben? Ich rieche Dummheit."; emoji = "👃" |}
-                    {| text = "Mein Ring glänzt heller als dein jämmerlicher Versuch."; emoji = "💍" |}
-                    {| text = "Zappeln, stolpern, scheitern – mach weiter, ich amüsiere mich."; emoji = "😈" |}
-                |]
-                BadActionSelf,
-                [|
-                    {| text = "Hah! So sollte es aussehen – Chaos mit Stil."; emoji = "🔥" |}
-                    {| text = "Ups? Nein, Absicht! Ich liebe, wenn’s brennt."; emoji = "😈" |}
-                    {| text = "Tz… der Knochen war schief, nicht meine Schuld."; emoji = "🦴" |}
-                    {| text = "Hehehe… na und? Selbst mein Scheitern ist schöner als dein Erfolg."; emoji = "💋" |}
-                    {| text = "Ohhh, wie herrlich! Selbst Fehler schmecken nach Blut."; emoji = "🩸" |}
-                    {| text = "Pff! Ich wollte nur testen, wie weit ich gehen kann."; emoji = "⚔️" |}
-                    {| text = "War das schlecht? Für mich sieht’s nach Kunst aus."; emoji = "🎭" |}
-                    {| text = "Hissss… meine Schwänze haben mich abgelenkt."; emoji = "🐍" |}
-                    {| text = "Na und? Ratten landen immer auf den Pfoten."; emoji = "🐀" |}
-                |]
-                GoodActionSelf,
-                [|
-                    {| text = "Hehehe… seht ihr? Zwei Schwänze, zwei Siege."; emoji = "🐀" |}
-                    {| text = "Ohhh, das war köstlich! Fast so süß wie Blut."; emoji = "🩸" |}
-                    {| text = "Ich glänze heller als mein Ring – und der blendet schon."; emoji = "💍" |}
-                    {| text = "Knirsch, knack… so klingen gebrochene Hoffnungen."; emoji = "💀" |}
-                    {| text = "Ha! Niemand sticht so fein wie ich."; emoji = "🗡️" |}
-                    {| text = "Mhh… das Chaos tanzt nach meiner Pfeife."; emoji = "🎶" |}
-                    {| text = "Brav gekämpft, Genny… brav…"; emoji = "😈" |}
-                    {| text = "Hissss… Erfolg riecht nach Angst."; emoji = "👃" |}
-                    {| text = "Meine Schwänze jubeln, meine Zähne lachen."; emoji = "😁" |}
-                |]
-                Generic,
-                [|
-                    {| text = "Hörst du das Kratzen? Die Wände haben Hunger."; emoji = "🕳️" |}
-                    {| text = "Zwei Schwänze, doppelt so viel Gift."; emoji = "🐀" |}
-                    {| text = "Shhh… still! Ich will das Zappeln hören."; emoji = "🐍" |}
-                    {| text = "Alles ist schöner, wenn es blutet."; emoji = "🩸" |}
-                    {| text = "Hehehe… meine Hände sind klein, aber sie greifen fest."; emoji = "✋" |}
-                    {| text = "Dein Atem stinkt nach Angst."; emoji = "👃" |}
-                    {| text = "Krone aus Knochen, Herz aus Hunger."; emoji = "💀" |}
-                    {| text = "Ratten laufen nie allein – außer ich, ich laufe über dir."; emoji = "😈" |}
-                    {| text = "Lass uns spielen… wer zuerst schreit, verliert."; emoji = "🎲" |}
-                    {| text = "Zwei Schwänze winden sich, wenn ich lache."; emoji = "😁" |}
-                |]
-            |]
-
-
-
-    let Beretta = {
-        name = "Beretta"
-        description = "A corny artificer companion to help you on your adventures!"
-        avatarUrl = AppHelper.BerettaImagePath
-        voiceUris = Beretta.voiceIds
-        messages = Beretta.Messages
-        basePitch = 1.1
-        baseRate = 1.05
-        theme = Theme.Highkeyturbo
-    }
-
-    let Genny = {
-        name = "Genny Two-Tail"
-        description = "A twisted ratling companion to help you on your adventures!"
-        avatarUrl = AppHelper.GennyImagePath
-        voiceUris = Genny.voiceIds
-        messages = Genny.Messages
-        basePitch = 1.8
-        baseRate = 1.5
-        theme = Theme.Dripfrost
-    }
 
 type App =
 
@@ -756,6 +76,22 @@ type App =
 	<path fill="currentColor" d="M12.754 2.305a.75.75 0 0 0-1.5 0v1.48a.75.75 0 0 0 1.5 0zm5.111 7.99a5.9 5.9 0 0 0-1.11-2.22a6 6 0 0 0-1.91-1.59a6.2 6.2 0 0 0-2.38-.69a6 6 0 0 0-2.46.33a6 6 0 0 0-2.13 1.29a6.2 6.2 0 0 0-1.43 2a6 6 0 0 0-.49 2.43a6.09 6.09 0 0 0 2.41 5l.35.33c.3.31.3.31.29 1v.32a1.6 1.6 0 0 0 .1.65c.07.222.194.425.36.59q.114.117.25.21v1a1.38 1.38 0 0 0 1.26 1.5h2a1.39 1.39 0 0 0 1.27-1.5v-1a1.6 1.6 0 0 0 .25-.21c.157-.166.277-.364.35-.58a1.7 1.7 0 0 0 .1-.66v-.37c0-.55 0-.55.31-.9l.38-.35a6.17 6.17 0 0 0 2.33-4.07a5.9 5.9 0 0 0-.1-2.51m-5.07 10.63h-1.58v-.63h1.58zm-.79-10.56a1.23 1.23 0 0 0-1.23 1.23a1 1 0 1 1-2 0a3.21 3.21 0 0 1 3.23-3.23a1 1 0 0 1 0 2m9.16 2.5h-1.83a.75.75 0 0 1 0-1.5h1.83a.75.75 0 1 1 0 1.5m-3.68-6.01a.74.74 0 0 1-.53-.22a.75.75 0 0 1 0-1.06l1.3-1.3a.75.75 0 0 1 1.06 1.06l-1.3 1.3a.73.73 0 0 1-.53.22m2.3 12.44a.8.8 0 0 1-.53-.22l-1.3-1.3a.75.75 0 0 1 .242-1.226a.74.74 0 0 1 .818.166l1.3 1.3a.74.74 0 0 1 0 1.06a.75.75 0 0 1-.53.22M6.535 6.855a.75.75 0 0 1-.53-.22l-1.3-1.3a.753.753 0 1 1 1.07-1.06l1.29 1.3a.75.75 0 0 1-.53 1.28m-2.29 12.44a.7.7 0 0 1-.53-.22a.75.75 0 0 1 0-1.06l1.3-1.3a.75.75 0 0 1 1.06 1.06l-1.29 1.31a.8.8 0 0 1-.54.21m.42-6.43h-1.83a.75.75 0 1 1 0-1.5h1.83a.75.75 0 1 1 0 1.5" />""",
             ?size = size,
             ?className = className
+        )
+
+    static member IconDashMenu(?size: int, ?className: string) =
+        App.Icon(
+            """<rect width="24" height="24" fill="none" />
+	<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" d="M4.5 12h15m-15 5.77h15M4.5 6.23h15" />""",
+            ?size = size,
+            ?className = className
+        )
+    static member IconX(?size: int, ?className: string) =
+        App.Icon(
+            """<polygon
+      points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />""",
+            ?size = size,
+            ?className = className,
+            viewBox = (0,0,512,512)
         )
 
     static member Chat(speech: ISpeak, msgs: MessageLog list, companion: Companion) =
@@ -915,13 +251,24 @@ type App =
 
     static member Navbar(modalId: string) =
         Html.nav [
-            prop.className "w-full p-2 flex"
+            prop.className "w-full p-2 flex gap-4"
             prop.children [
                 Html.button [
-                    prop.className "btn btn-sm btn-square ml-auto"
+                    prop.className "btn btn-square ml-auto"
                     prop.children [ App.IconCog(className = "") ]
                     prop.onClick (fun _ -> document.getElementById(modalId)?showModal() |> ignore)
                 ]
+                // Html.label [
+                //     prop.className "btn btn-square swap swap-rotate"
+
+                //     prop.children [
+                //         Html.input [prop.type'.checkbox]
+
+                //         App.IconDashMenu(className = "swap-off fill-current")
+                //         App.IconDashMenu(className = "swap-on fill-current")
+                //     ]
+
+                // ]
             ]
         ]
 
@@ -1013,6 +360,22 @@ type App =
             ]
         ]
 
+    static member private DisabledAlert() =
+        Html.div [
+            prop.className "alert alert-error"
+            prop.children [
+                Html.p [
+                    prop.dangerouslySetInnerHTML """<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>"""
+                ]
+                Html.div [
+                    Html.p "Companions cannot be summoned in this browser!"
+                    Html.p "Please try a different browser!"
+                ]
+            ]
+        ]
+
     [<ReactComponent>]
     static member Main() =
 
@@ -1030,6 +393,13 @@ type App =
         let messages, setMessages = React.useState<MessageLog list> []
 
         let volume, setVolume = React.useLocalStorage<int>(AppHelper.__APP_NAME__ + "_volume", 100)
+
+        let isDisabled, setIsDisabled = React.useState<bool>(false)
+
+        React.useEffect((fun _ ->
+            let speech = Browser.Dom.window?speechSynthesis
+            if isNullOrUndefined speech then setIsDisabled true
+        ), [||])
 
         let setCompanion (c: Companion) =
             setMessages []
@@ -1072,7 +442,7 @@ type App =
 
             setMessages (msgLog :: messages)
 
-            console.log(volume)
+            speak.stop()
 
             speak.speak (
                 rndMsg.text,
@@ -1097,7 +467,7 @@ type App =
                 App.Navbar(modalId = modalId)
                 App.Settings(modalId = modalId, volume = volume, setVolume = setVolume, companion = companion, setCompanion = setCompanion)
                 Html.div [
-                    prop.className "flex grow overflow-hidden flex-col items-center gap-6 p-6 md:p-10"
+                    prop.className "flex grow overflow-hidden flex-col items-center gap-12 p-6 md:p-10"
                     prop.children [
                         Html.div [
                             prop.children [
@@ -1109,6 +479,8 @@ type App =
                             ]
                         ]
                         App.Avatar(companion, speakRndTxt = speakRndTxt, currentEmoji = latestEmoji)
+                        if isDisabled then
+                            App.DisabledAlert()
                         App.Chat(speech = speak, msgs = messages, companion = companion)
                     ]
                 ]

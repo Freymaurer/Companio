@@ -6,6 +6,8 @@
         <None Include="index.html" />
         <Compile Include="Extensions.fs" />
         <Compile Include="RTTS.fs" />
+        <Compile Include="Types.fs" />
+        <Compile Include="Companions.fs" />
         <Compile Include="App.fs" />
         <Compile Include="Main.fs" />
     </ItemGroup>
