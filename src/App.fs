@@ -323,7 +323,14 @@ type App =
                 let delayid = Fable.Core.JS.setTimeout (fun () -> onMousedown e) 1000
                 delayRef.current <- Some delayid
             )
+            prop.onPointerDown(fun e ->
+                let delayid = Fable.Core.JS.setTimeout (fun () -> onMousedown e) 1000
+                delayRef.current <- Some delayid
+            )
             prop.onMouseUp (fun _ ->
+                cancel()
+            )
+            prop.onPointerUp(fun _ ->
                 cancel()
             )
             prop.children [
