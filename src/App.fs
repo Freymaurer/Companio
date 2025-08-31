@@ -274,58 +274,70 @@ type App =
 
     [<ReactComponent>]
     static member OnMousePressedEventHandler(children: ReactElement, callback: unit -> unit, ?duration: int) =
-        let timeoutRef = React.useRef(None: int option)
-        let intervalRef = React.useRef(None: int option)
-        let parentRef = React.useElementRef()
-        let position, setPosition = React.useState(None: {| x: float; y: float |} option)
-        let status, setStatus = React.useStateWithUpdater(None: int option)
         let steps = 10
         let duration = defaultArg duration 2000
         let stepduration = duration / steps
+
+        let intervalRef = React.useRef(None: int option)
+        let mainCallbackTimeoutRef = React.useRef(None: int option)
         let delayRef = React.useRef(None: int option) /// Used to delay ring animation and timer
+        let position, setPosition = React.useState(None: {| x: float; y: float |} option)
+        let status, setStatus = React.useStateWithUpdater(None: int option)
+        let parentRef = React.useElementRef()
 
         let cancel = fun () ->
+            console.log("cancel")
             delayRef.current |> Option.iter Fable.Core.JS.clearTimeout
-            timeoutRef.current |> Option.iter Fable.Core.JS.clearTimeout
             intervalRef.current |> Option.iter Fable.Core.JS.clearInterval
-            timeoutRef.current <- None
-            intervalRef.current <- None
+            mainCallbackTimeoutRef.current |> Option.iter Fable.Core.JS.clearTimeout
             setStatus (fun _ -> None)
             setPosition (None)
+            delayRef.current <- None
+            intervalRef.current <- None
+            mainCallbackTimeoutRef.current <- None
 
         let callback = fun () ->
             cancel()
             callback ()
 
         let onMousedown = fun (e: Browser.Types.MouseEvent) ->
-            let parent = parentRef.current.Value.getBoundingClientRect()
-            let relativeX = e.clientX - parent.left
-            let relativeY = e.clientY - parent.top
-            setPosition (Some {| x = relativeX - 10.; y = relativeY - 10. |})
-            let intervalId =
-                Fable.Core.JS.setInterval
-                    (fun _ ->
-                        setStatus (fun current ->
-                            current |> Option.map ((+) steps)
+            if intervalRef.current.IsNone then
+                let parent = parentRef.current.Value.getBoundingClientRect()
+                let relativeX = e.clientX - parent.left
+                let relativeY = e.clientY - parent.top
+                setPosition (Some {| x = relativeX - 10.; y = relativeY - 10. |})
+                setStatus (fun _ -> Some (100/steps))
+                let intervalId =
+                    Fable.Core.JS.setInterval
+                        (fun _ ->
+                            setStatus (fun current ->
+                                current |> Option.map ((+) steps)
+                            )
                         )
-                    )
-                    stepduration
-            let timeoutid = Fable.Core.JS.setTimeout callback duration
-            setStatus (fun _ -> Some (100/steps))
-            timeoutRef.current <- Some timeoutid
-            intervalRef.current <- Some intervalId
-
+                        stepduration
+                let timeoutId =
+                    Fable.Core.JS.setTimeout
+                        (fun _ -> callback ())
+                        duration
+                intervalRef.current <- Some intervalId
+                mainCallbackTimeoutRef.current <- Some timeoutId
 
         Html.div [
             prop.ref parentRef
             prop.className "relative"
             prop.onMouseDown (fun e ->
-                let delayid = Fable.Core.JS.setTimeout (fun () -> onMousedown e) 1000
-                delayRef.current <- Some delayid
+                match delayRef.current with
+                | Some _ -> ()
+                | None ->
+                    let delayid = Fable.Core.JS.setTimeout (fun () -> onMousedown e) 1000
+                    delayRef.current <- Some delayid
             )
             prop.onPointerDown(fun e ->
-                let delayid = Fable.Core.JS.setTimeout (fun () -> onMousedown e) 1000
-                delayRef.current <- Some delayid
+                match delayRef.current with
+                | Some _ -> ()
+                | None ->
+                    let delayid = Fable.Core.JS.setTimeout (fun () -> onMousedown e) 1000
+                    delayRef.current <- Some delayid
             )
             prop.onMouseUp (fun _ ->
                 cancel()
