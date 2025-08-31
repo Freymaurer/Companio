@@ -538,6 +538,8 @@ module private Genny =
     let GennyImagePath: string =
         Fable.Core.JsInterop.importDefault "./img/genny_ava.png"
 
+    let TrueGennyImagePath: string =
+        Fable.Core.JsInterop.importDefault "./img/genny_red_ava.png"
 
     let Messages =
         Map.ofArray [|
@@ -579,6 +581,46 @@ module private Genny =
                     text = "Mein Plan lacht, wenn deiner stirbt."
                     emoji = "🔥"
                 |}
+                {|
+                    text = "Ooooh, ein Plan! Lass uns Blut drauf spritzen!"
+                    emoji = "💡"
+                |}
+                {|
+                    text = "Hehehe… deine Ideen riechen nach Sieg und Tod."
+                    emoji = "🐀"
+                |}
+                {|
+                    text = "Ja, ja! Mach’s so, und ich kicher, bis jemand stirbt."
+                    emoji = "😈"
+                |}
+                {|
+                    text = "Brillant! Ich beiß die Kehlen auf, du denkst dir die Wege aus."
+                    emoji = "🦷"
+                |}
+                {|
+                    text = "Ohhh, eine Idee! Ich halte schon die Messer bereit."
+                    emoji = "🔪"
+                |}
+                {|
+                    text = "Deine Gedanken glänzen wie Knochen im Mondlicht."
+                    emoji = "🌙"
+                |}
+                {|
+                    text = "Hihihi! Ich liebe es, wenn ihr plant – dann kann ich schlitzen."
+                    emoji = "🗡️"
+                |}
+                {|
+                    text = "Zwei Schwänze, ein Hirn – und dein Plan macht uns stark!"
+                    emoji = "🐁"
+                |}
+                {|
+                    text = "Ohhh ja! Ich folge dir, bis die Schreie verstummen."
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Deine Idee ist köstlich… fast so köstlich wie Angst."
+                    emoji = "👁️"
+                |}
             |]
             GoodAction,
             [|
@@ -618,16 +660,92 @@ module private Genny =
                     text = "Brav, brav… der Plan wackelt nicht mal."
                     emoji = "🐁"
                 |}
+                {|
+                    text = "Hehehe! Du hast’s geschafft – jetzt noch tiefer schneiden!"
+                    emoji = "🔪"
+                |}
+                {|
+                    text = "Bravo, bravo! Ich leck dir das Blut von den Händen."
+                    emoji = "🩸"
+                |}
+                {|
+                    text = "So stark! So grausam! Genau wie ich’s liebe."
+                    emoji = "😈"
+                |}
+                {|
+                    text = "Hihihi! Meister stolz, Genny stolz – alle tot!"
+                    emoji = "🐀"
+                |}
+                {|
+                    text = "Ohhh, was für ein Schlag! Ich hör die Knochen tanzen!"
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Dein Erfolg ist mein Futter, ich schlemme an deinem Ruhm!"
+                    emoji = "🍖"
+                |}
+                {|
+                    text = "Gut gemacht! Zwei Schwänze klatschen für dich!"
+                    emoji = "🐁"
+                |}
+                {|
+                    text = "Ja, ja, mehr davon! Deine Klinge singt süßer als ich kichern kann."
+                    emoji = "🗡️"
+                |}
+                {|
+                    text = "So will ich’s sehen! Wir sind Albträume, die wahr werden."
+                    emoji = "🌑"
+                |}
+                {|
+                    text = "Hehehe! Dein Triumph macht meinen Schwanz ganz zappelig."
+                    emoji = "🐀"
+                |}
+                {|
+                    text = "Ein Treffer! Ich hör die Seele schreien!"
+                    emoji = "👂"
+                |}
+                {|
+                    text = "Wundervoll! Ich tanze auf den Knochen deiner Opfer."
+                    emoji = "💃"
+                |}
+                {|
+                    text = "Ohhh, wie herrlich! Ich will’s nochmal sehen, gleich nochmal!"
+                    emoji = "👁️"
+                |}
+                {|
+                    text = "Du bist so grausam, ich könnte dich knuddeln – und zerbeißen!"
+                    emoji = "🦷"
+                |}
+                {|
+                    text = "Ja! Blut spritzt, Herzen brechen – wir gewinnen!"
+                    emoji = "❤️"
+                |}
+                {|
+                    text = "Ohhh, mein Held, mein Monster – so soll es sein!"
+                    emoji = "🌙"
+                |}
+                {|
+                    text = "Hehehe… deine Stärke nährt meinen Wahnsinn!"
+                    emoji = "🔥"
+                |}
+                {|
+                    text = "Zwei Schwänze für dich, ein Kichern für mich!"
+                    emoji = "🐀"
+                |}
+                {|
+                    text = "Hihihi! Sieg riecht nach Eisen und Angst – köstlich!"
+                    emoji = "👃"
+                |}
+                {|
+                    text = "So schön! Dein Erfolg klingt wie mein Lachen!"
+                    emoji = "🎭"
+                |}
             |]
             BadAction,
             [|
                 {|
                     text = "Pfui! Selbst meine Schwänze hätten’s besser gemacht."
                     emoji = "🐀"
-                |}
-                {|
-                    text = "Hahaha! So sterben also Ideen – jämmerlich."
-                    emoji = "💀"
                 |}
                 {|
                     text = "Ugh… du bist so nützlich wie ein morscher Knochen."
@@ -642,10 +760,6 @@ module private Genny =
                     emoji = "🎻"
                 |}
                 {|
-                    text = "Tsk, tsk… ich sollte dich einfach aufknabbern."
-                    emoji = "🗡️"
-                |}
-                {|
                     text = "Schon wieder daneben? Ich rieche Dummheit."
                     emoji = "👃"
                 |}
@@ -656,6 +770,86 @@ module private Genny =
                 {|
                     text = "Zappeln, stolpern, scheitern – mach weiter, ich amüsiere mich."
                     emoji = "😈"
+                |}
+                {|
+                    text = "Hahaha! Ein Fehlschlag? Ich nenn’s köstlich."
+                    emoji = "🩸"
+                |}
+                {|
+                    text = "Fehler, Blut, Tränen – beste Mischung."
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Daneben! Hehehe… der Gestank von Versagen gefällt mir."
+                    emoji = "🐀"
+                |}
+                {|
+                    text = "Misslungen? Dann schmeckt’s nach Angst, genau richtig."
+                    emoji = "😈"
+                |}
+                {|
+                    text = "Ohhh, so herrlich schief – ich könnt mich drin wälzen."
+                    emoji = "🕳️"
+                |}
+                {|
+                    text = "Patzer! Jeder Knochen knirscht lauter, wenn man stolpert."
+                    emoji = "🦴"
+                |}
+                {|
+                    text = "Hehehe, versagt! Noch ein Grund, alles kaputtzumachen."
+                    emoji = "🗡️"
+                |}
+                {|
+                    text = "Blut rinnt auch ohne Treffer, hahahaha!"
+                    emoji = "🩸"
+                |}
+                {|
+                    text = "Schwach? Nein… das ist einfach schön dreckig."
+                    emoji = "🪤"
+                |}
+                {|
+                    text = "Dein Scheitern macht die Welt hässlicher. Ich liebe es."
+                    emoji = "🔥"
+                |}
+                {|
+                    text = "Hihihi… kein Treffer? Dann machen wir eben mehr Lärm."
+                    emoji = "🎭"
+                |}
+                {|
+                    text = "Stolpern, fallen, verrecken – klingt wie Musik."
+                    emoji = "🎶"
+                |}
+                {|
+                    text = "Fehler sind wie Wunden: offen, stinkend, lebendig."
+                    emoji = "🤢"
+                |}
+                {|
+                    text = "Ein Schuss ins Leere… genau mein Humor."
+                    emoji = "🔫"
+                |}
+                {|
+                    text = "Je mieser es läuft, desto schöner wird der Abgrund."
+                    emoji = "🕷️"
+                |}
+                {|
+                    text = "Daneben! Das Chaos frisst euch doch alle, hehe."
+                    emoji = "⚡"
+                |}
+                {|
+                    text = "Patzen heißt nur: mehr Blut beim zweiten Versuch."
+                    emoji = "💉"
+                |}
+                {|
+                    text = "Hehehe… scheitern riecht besser als Sieg."
+                    emoji = "👃"
+                |}
+                {|
+                    text = "Zerbrochen, verdorben, vermasselt – genau mein Geschmack."
+                    emoji = "🍖"
+                |}
+                {|
+                    text = "Aus Fehlern wächst Verzweiflung… und die nährt mich."
+                    emoji = "🌑"
                 |}
             |]
             BadActionSelf,
@@ -671,10 +865,6 @@ module private Genny =
                 {|
                     text = "Tz… der Knochen war schief, nicht meine Schuld."
                     emoji = "🦴"
-                |}
-                {|
-                    text = "Hehehe… na und? Selbst mein Scheitern ist schöner als dein Erfolg."
-                    emoji = "💋"
                 |}
                 {|
                     text = "Ohhh, wie herrlich! Selbst Fehler schmecken nach Blut."
@@ -695,6 +885,86 @@ module private Genny =
                 {|
                     text = "Na und? Ratten landen immer auf den Pfoten."
                     emoji = "🐀"
+                |}
+                {|
+                    text = "Hehehe… versaut! Perfekt, genau so wollte ich’s… fast."
+                    emoji = "🩸"
+                |}
+                {|
+                    text = "Scheiße! Blut spritzt, aber nicht genug… noch einmal!"
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Mist! Hahaha, das tut weh… aber nicht mir, ha!"
+                    emoji = "😈"
+                |}
+                {|
+                    text = "Daneben! Ohhh, wie herrlich chaotisch!"
+                    emoji = "🗡️"
+                |}
+                {|
+                    text = "Hihihi… ich stolpere selbst, und es schmeckt nach Sieg."
+                    emoji = "🐀"
+                |}
+                {|
+                    text = "Verpatzt! Aber so riecht das Spiel besser, hahahaha!"
+                    emoji = "🔥"
+                |}
+                {|
+                    text = "Mist, Mist, Mist! Blutige Finger sind schöne Finger."
+                    emoji = "🦷"
+                |}
+                {|
+                    text = "Hehehe… ich fall, ich krach, und alle schreien – herrlich!"
+                    emoji = "🕳️"
+                |}
+                {|
+                    text = "Patzer! Genau mein Humor, noch mehr Chaos bitte."
+                    emoji = "🎭"
+                |}
+                {|
+                    text = "Fehler? Perfekt! Ich liebe das Geräusch von zerbrechendem Metall."
+                    emoji = "⚡"
+                |}
+                {|
+                    text = "Scheitern fühlt sich gut an, wenn es so schön blutig ist."
+                    emoji = "🩸"
+                |}
+                {|
+                    text = "Hahaha! Ich zertrümmer alles… sogar mich selbst."
+                    emoji = "💣"
+                |}
+                {|
+                    text = "Ohhh, daneben! Ich wachse am Geruch von verbranntem Fleisch."
+                    emoji = "🔥"
+                |}
+                {|
+                    text = "Mist! Noch ein Fehltritt, und die Welt brennt besser."
+                    emoji = "🌑"
+                |}
+                {|
+                    text = "Scheiße! Aber ich lache, während alles auseinanderfällt."
+                    emoji = "🎶"
+                |}
+                {|
+                    text = "Hihihi… selbst ich kann mich ruinieren – und es ist köstlich."
+                    emoji = "🍖"
+                |}
+                {|
+                    text = "Verpatzt! Perfekte Vorbereitung für den nächsten Schlag."
+                    emoji = "🗡️"
+                |}
+                {|
+                    text = "Mist! Stolpern, fallen, zerreißen – alles gehört mir."
+                    emoji = "🕷️"
+                |}
+                {|
+                    text = "Hahaha… ich bin das Chaos, selbst wenn ich falle."
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Daneben! Und doch fühlt es sich richtig pervers gut an."
+                    emoji = "😈"
                 |}
             |]
             GoodActionSelf,
@@ -735,9 +1005,94 @@ module private Genny =
                     text = "Meine Schwänze jubeln, meine Zähne lachen."
                     emoji = "😁"
                 |}
+                {|
+                    text = "Ha! Zwei Schwänze, zwei Siege – genau wie ich es liebe."
+                    emoji = "🐀"
+                |}
+                {|
+                    text = "Perfekt! Blut, Knochen, Chaos – alles unter meiner Kontrolle."
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Hehehe… Treffer! Mein Messer singt, mein Herz tanzt."
+                    emoji = "🗡️"
+                |}
+                {|
+                    text = "Hihihi! Ich hab’s geschafft – und es blutet so schön."
+                    emoji = "🩸"
+                |}
+                {|
+                    text = "Brillant! Mein Wahnsinn wirkt, und alles zerfällt."
+                    emoji = "🔥"
+                |}
+                {|
+                    text = "Ohhh, wie herrlich! Sieg schmeckt nach Eisen und Angst."
+                    emoji = "⚡"
+                |}
+                {|
+                    text = "Zwei Schwänze, ein Plan, und jeder fällt, wie ich will."
+                    emoji = "🐁"
+                |}
+                {|
+                    text = "Hehehe… mein Triumph ist so köstlich, wie das Schreien der Opfer."
+                    emoji = "😈"
+                |}
+                {|
+                    text = "Ich hab’s getan! Alles knirscht und kracht perfekt."
+                    emoji = "🦴"
+                |}
+                {|
+                    text = "Hahaha! Ein Schritt vorwärts, ein Schrei hinter mir – großartig."
+                    emoji = "👂"
+                |}
+                {|
+                    text = "Hehehe… Sieg ist Blut, und Blut ist mein Lied."
+                    emoji = "🎶"
+                |}
+                {|
+                    text = "Brillant! Mein Wahnsinn ist effektiv, köstlich effektiv."
+                    emoji = "💣"
+                |}
+                {|
+                    text = "Ha! Die Klinge tanzte, und ich kicherte… perfekt."
+                    emoji = "💃"
+                |}
+                {|
+                    text = "Hehehe… alles nach Plan, und mein Chaos glänzt."
+                    emoji = "🌑"
+                |}
+                {|
+                    text = "Hihihi! Ich bin das Chaos, ich bin der Schlag – Erfolg!"
+                    emoji = "🗡️"
+                |}
+                {|
+                    text = "Treffer! Knochen brechen, Herz klopft – alles richtig."
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Perfekt! Ein blutiger Tanz, und ich führe die Musik."
+                    emoji = "🎵"
+                |}
+                {|
+                    text = "Hehehe… alles fällt, alles bricht, alles gehört mir."
+                    emoji = "🔥"
+                |}
+                {|
+                    text = "Hihihi! Sieg riecht nach Eisen, Angst und Wahnsinn."
+                    emoji = "👃"
+                |}
+                {|
+                    text = "Zwei Schwänze, ein Erfolg, und alles schreit wie geplant."
+                    emoji = "🐀"
+                |}
             |]
             Generic,
             [|
+
+                {|
+                    text = "Hahaha! Chaos ist mein Spielplatz, Blut mein Spielzeug."
+                    emoji = "🔥"
+                |}
                 {|
                     text = "Hörst du das Kratzen? Die Wände haben Hunger."
                     emoji = "🕳️"
@@ -778,6 +1133,70 @@ module private Genny =
                     text = "Zwei Schwänze winden sich, wenn ich lache."
                     emoji = "😁"
                 |}
+                {|
+                    text = "Ohhh… riechst du die Angst? Ich rieche sie schon seit Stunden."
+                    emoji = "👃"
+                |}
+                {|
+                    text = "Perfekt! Jeder Schritt zerbricht… genau wie geplant."
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Hehehe… ich kicher, während alles auseinanderfällt."
+                    emoji = "🎭"
+                |}
+                {|
+                    text = "Hihihi! Noch ein Schrei, noch ein Splittern… köstlich."
+                    emoji = "🗡️"
+                |}
+                {|
+                    text = "Zwei Schwänze, ein Grinsen… ich warte nur auf Blut."
+                    emoji = "🐁"
+                |}
+                {|
+                    text = "Hahaha! Alles ist Chaos, und ich liebe es… alles gehört mir."
+                    emoji = "🌑"
+                |}
+                {|
+                    text = "Hehehe… Knochen knirschen, Herzen rasen, und ich lache."
+                    emoji = "🦴"
+                |}
+                {|
+                    text = "Ohhh, das Zittern! Ich könnte ewig zuhören…"
+                    emoji = "👂"
+                |}
+                {|
+                    text = "Perfekt! Angst schmeckt salzig, Blut schmeckt besser."
+                    emoji = "🩸"
+                |}
+                {|
+                    text = "Hihihi! Mein Lachen ist lauter als jedes Schicksal."
+                    emoji = "😈"
+                |}
+                {|
+                    text = "Hehehe… der Abgrund ruft, und ich tanze darin."
+                    emoji = "💃"
+                |}
+                {|
+                    text = "Zwei Schwänze, ein Chaos… alles gehört mir."
+                    emoji = "🐀"
+                |}
+                {|
+                    text = "Hahaha! Jeder Schritt ein Schritt ins Verderben."
+                    emoji = "⚡"
+                |}
+                {|
+                    text = "Ohhh, wie herrlich! Schreie, Splitter, Wahnsinn… perfekt."
+                    emoji = "🔥"
+                |}
+                {|
+                    text = "Hihihi… alles fällt, alles zerbricht, und ich liebe es."
+                    emoji = "💀"
+                |}
+                {|
+                    text = "Hehehe… noch ein Herz, noch ein Schrei, noch ein Spiel."
+                    emoji = "🕷️"
+                |}
             |]
         |]
 
@@ -792,6 +1211,17 @@ let Beretta = {
     basePitch = 1.1
     baseRate = 1.05
     theme = Theme.Highkeyturbo
+}
+
+let TrueGenny = {
+    name = "Genny Two-Tail"
+    description = "A twisted ratling companion to help you on your adventures!"
+    avatarUrl = Genny.TrueGennyImagePath
+    voiceUris = Genny.voiceIds
+    messages = Genny.Messages
+    basePitch = 1.8
+    baseRate = 1.5
+    theme = Theme.Dripfrost
 }
 
 let Genny = {

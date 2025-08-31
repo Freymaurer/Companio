@@ -218,7 +218,7 @@ type App =
             ]
         ]
 
-    static member CompanionItem(companion: Companion, isActive: bool, setCompanion: Companion -> unit) =
+    static member CompanionItem(companion: Companion, isActive: bool, setCompanion: Companion -> unit, ?key: string) =
         Html.li [
             prop.className "list-row cursor-pointer transition hover:bg-base-200/20"
             prop.onClick (fun _ -> setCompanion companion)
@@ -272,7 +272,81 @@ type App =
             ]
         ]
 
+    [<ReactComponent>]
+    static member OnMousePressedEventHandler(children: ReactElement, callback: unit -> unit, ?duration: int) =
+        let timeoutRef = React.useRef(None: int option)
+        let intervalRef = React.useRef(None: int option)
+        let parentRef = React.useElementRef()
+        let position, setPosition = React.useState(None: {| x: float; y: float |} option)
+        let status, setStatus = React.useStateWithUpdater(None: int option)
+        let steps = 10
+        let duration = defaultArg duration 2000
+        let stepduration = duration / steps
+        let delayRef = React.useRef(None: int option) /// Used to delay ring animation and timer
+
+        let cancel = fun () ->
+            delayRef.current |> Option.iter Fable.Core.JS.clearTimeout
+            timeoutRef.current |> Option.iter Fable.Core.JS.clearTimeout
+            intervalRef.current |> Option.iter Fable.Core.JS.clearInterval
+            timeoutRef.current <- None
+            intervalRef.current <- None
+            setStatus (fun _ -> None)
+            setPosition (None)
+
+        let callback = fun () ->
+            cancel()
+            callback ()
+
+        let onMousedown = fun (e: Browser.Types.MouseEvent) ->
+            let parent = parentRef.current.Value.getBoundingClientRect()
+            let relativeX = e.clientX - parent.left
+            let relativeY = e.clientY - parent.top
+            setPosition (Some {| x = relativeX - 10.; y = relativeY - 10. |})
+            let intervalId =
+                Fable.Core.JS.setInterval
+                    (fun _ ->
+                        setStatus (fun current ->
+                            current |> Option.map ((+) steps)
+                        )
+                    )
+                    stepduration
+            let timeoutid = Fable.Core.JS.setTimeout callback duration
+            setStatus (fun _ -> Some (100/steps))
+            timeoutRef.current <- Some timeoutid
+            intervalRef.current <- Some intervalId
+
+
+        Html.div [
+            prop.ref parentRef
+            prop.className "relative"
+            prop.onMouseDown (fun e ->
+                let delayid = Fable.Core.JS.setTimeout (fun () -> onMousedown e) 1000
+                delayRef.current <- Some delayid
+            )
+            prop.onMouseUp (fun _ ->
+                cancel()
+            )
+            prop.children [
+                if status.IsSome && position.IsSome then
+                    Html.div [
+                        prop.className "radial-progress size-8 z-[1000] text-red-600/80 bg-black/50 border-4 border-black/50"
+                        prop.role.progressBar
+                        prop.style [
+                            style.custom("--value", status.Value)
+                            style.position.absolute
+                            style.top (unbox<int> (position.Value.y)) //245 770
+                            style.left (unbox<int> (position.Value.x))
+                        ]
+                        prop.ariaValueNow status.Value
+                    ]
+                children
+            ]
+        ]
+
+    [<ReactComponent>]
     static member Settings(modalId: string, volume: int, setVolume: int -> unit, companion: Companion, setCompanion: Companion -> unit) =
+
+        let showTrueGenny, setShowTrueGenny = React.useState(false)
         Html.dialog [
             prop.id modalId
             prop.className "modal modal-bottom"
@@ -332,9 +406,14 @@ type App =
                                             prop.className "p-4 pb-2 text-xs opacity-60 tracking-wide"
                                             prop.text "Choose your companion!"
                                         ]
-
-                                        App.CompanionItem(Companions.Beretta, (companion = Companions.Beretta), setCompanion = setCompanion)
-                                        App.CompanionItem(Companions.Genny, (companion = Companions.Genny), setCompanion = setCompanion)
+                                        App.CompanionItem(Companions.Beretta, (companion = Companions.Beretta), setCompanion = setCompanion, key = "beretta")
+                                        if showTrueGenny then
+                                            App.CompanionItem(Companions.TrueGenny, (companion = Companions.TrueGenny), setCompanion = setCompanion, key = "true-genny")
+                                        else
+                                            App.OnMousePressedEventHandler(
+                                                App.CompanionItem(Companions.Genny, (companion = Companions.Genny), setCompanion = setCompanion, key = "genny"),
+                                                (fun _ -> setShowTrueGenny true)
+                                            )
                                     ]
 
                                 ]
@@ -383,7 +462,7 @@ type App =
         let storedCompanion, setStoredCompanion = React.useLocalStorage<string>(AppHelper.__APP_NAME__ + "_companion", Companions.Beretta.name)
 
         let companions = React.useMemo(fun () ->
-            [Companions.Beretta; Companions.Genny]
+            [Companions.Beretta; Companions.Genny; Companions.TrueGenny]
         )
 
         let initCompanion = companions |> List.tryFind (fun c -> c.name = storedCompanion) |> Option.defaultValue Companions.Beretta
