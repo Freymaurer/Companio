@@ -15,6 +15,9 @@ module AppHelper =
     [<Emit("__APP_VERSION__")>]
     let __VERSION__ : string = jsNative
 
+    [<Emit("__REPO_URL__")>]
+    let __REPO_URL__ : string = jsNative
+
 
 type App =
 
@@ -493,6 +496,8 @@ type App =
 
         let isDisabled, setIsDisabled = React.useState<bool>(false)
 
+        let FAQId = "FAQ_Checkbox_Id"
+
         React.useEffect((fun _ ->
             let speech = Browser.Dom.window?speechSynthesis
             if isNullOrUndefined speech then setIsDisabled true
@@ -558,27 +563,70 @@ type App =
                 )
             )
 
-        Html.div [
-            prop.className "h-svh flex flex-col w-full overflow-hidden"
-            prop.children [
-                App.Navbar(modalId = modalId)
-                App.Settings(modalId = modalId, volume = volume, setVolume = setVolume, companion = companion, setCompanion = setCompanion)
-                Html.div [
-                    prop.className "flex grow overflow-hidden flex-col items-center gap-12 p-6 md:p-10"
-                    prop.children [
-                        Html.div [
-                            prop.children [
-                                Html.h1 [ prop.className "text-3xl font-bold"; prop.text companion.name ]
-                                Html.small [
-                                    prop.className "text-sm text-muted-foreground"
-                                    prop.text companion.description
+        let FAQItem (question: string, answer: ReactElement) =
+            Html.div [
+                prop.className "collapse collapse-plus join-item border-base-300 border"
+                prop.children [
+                    Html.input [prop.type'.radio; prop.id FAQId; prop.name FAQId]
+                    Html.div [
+                        prop.className "collapse-title font-semibold"
+                        prop.text question
+                    ]
+                    Html.div [
+                        prop.className "collapse-content text-sm"
+                        prop.children answer
+                    ]
+                ]
+            ]
+
+        React.fragment [
+            Html.div [
+                prop.className "h-svh flex flex-col w-full overflow-hidden"
+                prop.children [
+                    App.Navbar(modalId = modalId)
+                    App.Settings(modalId = modalId, volume = volume, setVolume = setVolume, companion = companion, setCompanion = setCompanion)
+                    Html.div [
+                        prop.className "flex grow overflow-hidden flex-col items-center gap-12 p-6 md:p-10"
+                        prop.children [
+                            Html.div [
+                                prop.children [
+                                    Html.h1 [ prop.className "text-3xl font-bold"; prop.text companion.name ]
+                                    Html.small [
+                                        prop.className "text-sm text-muted-foreground"
+                                        prop.text companion.description
+                                    ]
                                 ]
                             ]
+                            App.Avatar(companion, speakRndTxt = speakRndTxt, currentEmoji = latestEmoji)
+                            if isDisabled then
+                                App.DisabledAlert()
+                            App.Chat(speech = speak, msgs = messages, companion = companion)
                         ]
-                        App.Avatar(companion, speakRndTxt = speakRndTxt, currentEmoji = latestEmoji)
-                        if isDisabled then
-                            App.DisabledAlert()
-                        App.Chat(speech = speak, msgs = messages, companion = companion)
+                    ]
+                ]
+            ]
+            Html.div [
+                prop.className "h-svh flex grow justify-center py-8"
+                prop.children [
+                    Html.div [
+                        prop.className "w-2xl join join-vertical bg-base-100"
+                        prop.children [
+                            FAQItem("Why did you make this?", Html.text "This project is a technical spin on some inside jokes from my pen-and-paper group. I also wanted to try out a small new project and explore what browser-based text-to-speech can do!")
+                            FAQItem("What technologies did you use?", Html.ul [
+                                Html.li "F# + Fable"
+                                Html.li "React + react-text-to-speech"
+                                Html.li "Tailwind CSS + daisyUI"
+                            ])
+                            FAQItem("Where can I find the source code for this?", Html.div [
+                                Html.text "You can find the source code at "
+                                Html.a [
+                                    prop.className "link link-primary"
+                                    prop.href AppHelper.__REPO_URL__
+                                    prop.text "GitHub Repository"
+                                ]
+                                Html.text "."
+                            ])
+                        ]
                     ]
                 ]
             ]

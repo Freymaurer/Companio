@@ -1,7 +1,11 @@
 {
   "displayName": "Companio",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Freymaurer/Companio"
+  },
   "scripts": {
     "start": "dotnet tool restore && dotnet fable watch src --runFast vite",
     "build": "dotnet tool restore && dotnet fable src --run vite build",
